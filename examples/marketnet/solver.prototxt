@@ -1,0 +1,14 @@
+net: "./train_cls.prototxt"
+test_iter: 1
+test_interval: 1000
+base_lr: 0.005
+lr_policy: "step"
+gamma: 0.9
+stepsize: 1000
+display: 20
+max_iter: 4000
+momentum: 0.9
+weight_decay: 0.0005
+snapshot: 10000
+snapshot_prefix: "/media/wuliang/Data/models/market_softmax"
+solver_mode: GPU
