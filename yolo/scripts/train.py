@@ -1,4 +1,3 @@
-PLET LOSS
 # Copyright (c) 2015 Pinguo Tech.
 # Written by David Lu
 # --------------------------------------------------------
