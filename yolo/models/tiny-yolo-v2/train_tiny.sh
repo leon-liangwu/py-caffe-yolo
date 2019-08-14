@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-CAFFE_HOME=../../..
+CAFFE_HOME="../../../caffe/"
 
 SOLVER=./solver.prototxt
 WEIGHTS=../../yolo_models/darknet_v1.9.caffemodel
