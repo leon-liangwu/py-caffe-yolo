@@ -1,5 +1,4 @@
 import os
-from numpy import *
 
 # Training image data path
 image_list = '/data/ImageSets/VOC/2007_val.txt'
