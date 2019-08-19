@@ -1,7 +1,7 @@
 import os
 
 # Training image data path
-image_list = '/data/ImageSets/VOC/2007_val.txt'
+image_list = '/data/Machine_Learning/ImageSet/voc-data/2007_val.txt'
 batch_size = 64
 image_size = 224
 side = 1
