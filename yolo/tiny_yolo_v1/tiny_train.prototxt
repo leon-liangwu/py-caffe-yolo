@@ -381,6 +381,7 @@ layer {
 	python_param {
 		module: 'detectionlosslayer'
 		layer: 'DetectionLossLayer'
+    param_str: "{'num_class': 0, 'num_object': 3, 'side': 1}"
 	}
   loss_weight: 1
 }

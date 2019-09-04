@@ -10,15 +10,14 @@ import random
 class BoxDataLayer(caffe.Layer):
 
   def setup(self, bottom, top):
-    cfg = yaml.load(self.param_str)
-    print('config in yaml ', cfg)
-    self.image_list = open(cfg['image_list'])
-    self.batch_size = cfg['batch_size']
-    self.side = cfg['side']
-    self.image_size = cfg['image_size']
+    param = yaml.load(self.param_str)
+    self.image_list = open(param['image_list'])
+    self.batch_size = param['batch_size']
+    self.side = param['side']
+    self.image_size = param['image_size']
     self.width = self.image_size
     self.height = self.image_size
-    self.version = cfg['version']
+    self.version = param['version']
     self.lines = self.image_list.readlines() 
     self.data_num = len(self.lines)
     top[0].reshape(self.batch_size, 3, self.height, self.width)

@@ -5,24 +5,33 @@ from numpy import *
 import math
 import yaml
 import box_func
-import config
+# import config
 
 
 class DetectionLossLayer(caffe.Layer):
   def setup(self, bottom, top):
-    self.side = config.side
-    self.num_class = config.num_class
-    self.num_object = config.num_object
-    self.sqrt = config.sqrt
-    self.constraint = config.constraint
-   
-    self.object_scale = config.object_scale
-    self.noobject_scale = config.noobject_scale
-    self.class_scale = config.class_scale
-    self.coord_scale = config.coord_scale
+    param = yaml.load(self.param_str)
+    
+    self.side = param['side']
+    self.num_class = param['num_class']
+    self.num_object = param['num_object']
+
+    self.sqrt = self.get_param(param, 'sqrt', True)
+    self.constraint = self.get_param(param, 'constraint', True)
+
+    self.object_scale = self.get_param(param, 'object_scale', 1.0)
+    self.noobject_scale = self.get_param(param, 'noobject_scale', 0.5)
+    self.class_scale = self.get_param(param, 'class_scale', 1.0)
+    self.coord_scale = self.get_param(param, 'coord_scale', 5.0)
+
     self.diff = np.zeros(bottom[0].data.shape)
     top[0].reshape(1)
     #some checks need to be coded
+
+  def get_param(self, param, name, def_val):
+    if name in param:
+      return param[name]
+    return def_val
       
   def reshape(self, bottom, top):
     pass
