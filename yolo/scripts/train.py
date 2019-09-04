@@ -4,15 +4,17 @@
 
 """Train the network."""
 
+import __init_paths
 import caffe
 from timer import Timer
 import numpy as np
 import os
 from caffe.proto import caffe_pb2
 import google.protobuf as pb2
+import google.protobuf.text_format
 import sys
 import config
-import _init_paths
+
 
 class SolverWrapper(object):
     """A simple wrapper around Caffe's solver.
@@ -24,7 +26,7 @@ class SolverWrapper(object):
         self.output_dir = output_dir
 
         caffe.set_mode_gpu()
-        caffe.set_device(6)
+        caffe.set_device(0)
         self.solver = caffe.SGDSolver(solver_prototxt)
         if pretrained_model is not None:
             print ('Loading pretrained model '
@@ -81,10 +83,10 @@ if __name__ == '__main__':
     solver_prototxt = '../models/tiny-yolo-v1/solver.prototxt'
     output_dir = '../backup/'
     #pretrained_model = '../models/_iter_40000.caffemodel'
-    #pretrained_model = None
+    pretrained_model = None
     #pretrained_model = '/data2/wuliang/recognition/models/market-112_iter_120000.caffemodel'
     max_iters = 30 #config.MAX_ITERS
-    sw = SolverWrapper(solver_prototxt, output_dir,pretrained_model)
+    sw = SolverWrapper(solver_prototxt, output_dir, pretrained_model)
     
     print 'Solving...'
     sw.train_model(max_iters)
