@@ -29,14 +29,14 @@ class RegionLossLayer(caffe.Layer):
     self.sqrt = self.get_param(param, 'sqrt', True)
     self.constraint = self.get_param(param, 'constraint', True)
     self.do_softmax = self.get_param(param, 'do_softmax', True)
-    self.rescore = self.get_param(param, 'rescore', True)
+    self.rescore = self.get_param(param, 'rescore', False)
     self.bias_match = self.get_param(param, 'bias_match', True)
-    self.thresh = self.get_param(param, 'thresh', 0.4)
+    self.thresh = self.get_param(param, 'thresh', 0.6)
 
-    self.object_scale = self.get_param(param, 'object_scale', 1.0)
-    self.noobject_scale = self.get_param(param, 'noobject_scale', 0.5)
+    self.object_scale = self.get_param(param, 'object_scale', 5.0)
+    self.noobject_scale = self.get_param(param, 'noobject_scale', 1.0)
     self.class_scale = self.get_param(param, 'class_scale', 1.0)
-    self.coord_scale = self.get_param(param, 'coord_scale', 5.0)
+    self.coord_scale = self.get_param(param, 'coord_scale', 1.0)
 
     def_anchors = [0.5 for i in range(2*self.num_object)]
 

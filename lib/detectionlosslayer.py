@@ -11,7 +11,7 @@ import box_func
 class DetectionLossLayer(caffe.Layer):
   def setup(self, bottom, top):
     param = yaml.load(self.param_str)
-    
+
     self.side = param['side']
     self.num_class = param['num_class']
     self.num_object = param['num_object']
@@ -39,6 +39,8 @@ class DetectionLossLayer(caffe.Layer):
   def forward(self, bottom, top):
     input_data = bottom[0].data
     label_data = bottom[1].data
+    print('data shape', input_data.shape)
+    print('label shape', label_data.shape)
     self.diff[...] = 0
 
     losses = np.zeros(6) #loss, obj_loss, noobj_loss, class_loss, coord_loss, area_loss
