@@ -8,8 +8,8 @@ def add_path(path):
     # print(sys.path)
 
 
-caffe_path = '../../caffe/python/'
+caffe_path = './caffe/python/'
 add_path(caffe_path)
 
-lib_path = '../lib/'
+lib_path = './lib/'
 add_path(lib_path)
