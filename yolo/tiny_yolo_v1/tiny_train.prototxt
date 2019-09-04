@@ -7,7 +7,7 @@ layer {
   python_param {
     module: 'boxdatalayer'
     layer: 'BoxDataLayer'
-    param_str: "{'image_list': '/data/Machine_Learning/ImageSet/voc-data/2007_val.txt','batch_size': 64,'image_size': 224,'side': 7,'version': 1}"
+    param_str: "{'image_list': '/data/Machine_Learning/ImageSet/voc-data/2007_val.txt','batch_size': 32,'image_size': 448,'side': 7,'version': 1}"
   }
 }
 layer {
@@ -18,7 +18,7 @@ layer {
   param {
     lr_mult: 1
     decay_mult: 1
-  }
+  } 
   param {
     lr_mult: 2
     decay_mult: 0
@@ -360,7 +360,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 15
+    num_output: 735
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -381,7 +381,7 @@ layer {
 	python_param {
 		module: 'detectionlosslayer'
 		layer: 'DetectionLossLayer'
-    param_str: "{'num_class': 0, 'num_object': 3, 'side': 1}"
+    param_str: "{'num_class': 0, 'num_object': 3, 'side': 7}"
 	}
   loss_weight: 1
 }
