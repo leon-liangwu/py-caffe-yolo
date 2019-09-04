@@ -14,16 +14,17 @@ import google.protobuf as pb2
 import google.protobuf.text_format
 import sys
 import config
+import fire
 
 
 class SolverWrapper(object):
     """A simple wrapper around Caffe's solver.
     """
 
-    def __init__(self, solver_prototxt, output_dir,
+    def __init__(self, solver_prototxt,
                  pretrained_model=None):
         """Initialize the SolverWrapper."""
-        self.output_dir = output_dir
+        self.output_dir = None # not in use for now
 
         caffe.set_mode_gpu()
         caffe.set_device(0)
@@ -51,7 +52,7 @@ class SolverWrapper(object):
         filename = os.path.join(self.output_dir, filename)
 
         net.save(str(filename))
-        print 'Wrote snapshot to: {:s}'.format(filename)
+        print('Wrote snapshot to: {:s}'.format(filename))
 
 
     def train_model(self, max_iters):
@@ -75,20 +76,22 @@ class SolverWrapper(object):
             #print 'fc9:',self.solver.net.params['fc9'][0].data[0][0]
             timer.toc()
             if self.solver.iter % (10 * self.solver_param.display) == 0:
-                print 'speed: {:.3f}s / iter'.format(timer.average_time)          
+                print('speed: {:.3f}s / iter'.format(timer.average_time)          )
+
+
+def run(solver,
+        weights=None):
+    """Train network."""
+    solver_prototxt = solver
+    pretrained_model = weights
+
+    max_iters = 30000 #config.MAX_ITERS
+    sw = SolverWrapper(solver_prototxt, pretrained_model)
+    
+    print('Start solving...')
+    sw.train_model(max_iters)
+    print('Done solving!')
 
 
 if __name__ == '__main__':
-    """Train network."""
-    solver_prototxt = '../models/tiny-yolo-v1/solver.prototxt'
-    output_dir = '../backup/'
-    #pretrained_model = '../models/_iter_40000.caffemodel'
-    pretrained_model = None
-    #pretrained_model = '/data2/wuliang/recognition/models/market-112_iter_120000.caffemodel'
-    max_iters = 30 #config.MAX_ITERS
-    sw = SolverWrapper(solver_prototxt, output_dir, pretrained_model)
-    
-    print 'Solving...'
-    sw.train_model(max_iters)
-    print 'done solving'
-
+    fire.Fire(run)

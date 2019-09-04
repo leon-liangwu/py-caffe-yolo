@@ -1,20 +1,28 @@
 # CAFFE with PyThon Layers for darknet
 
+#### Get Started
+```
+git clone --recursive https://github.com/leon-liangwu/py-caffe-yolo.git
+pip install -r requirements.txt
+```
+
 ### Data preparation
 > Prepare data lsit just like the way of original darkenet
 > No need to generate lmdbs as we directly use raw images in the data list to train
 
 
-### Train tiny yolo v2
-set the environment
+### Train tiny yolo v1 or v2
+
+for tiny yolo v1
 ```
-export PYTHONPATH=../../lib/:../../../caffe/python/:$PYTHONPATH
+cd Root_Repo
+python scripts/train_net.py --solver=./yolo/tiny_yolo_v1/solver.prototxt [--weights=]
 ```
 
-train the detection
+for tiny yolo v2
 ```
-cd Root_Repo/yolo/models/tiny-yolo-v2/
-sh train_tiny.sh
+cd Root_Repo
+python scripts/train_net.py --solver=./yolo/tiny_yolo_v2/solver.prototxt [--weights=]
 ```
 
 

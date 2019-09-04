@@ -78,7 +78,6 @@ class RegionLossLayer(caffe.Layer):
     for b in range(self.b):
       for j in range(self.h):
         for i in range(self.w):
-          t1 = clock()
           for n in range(self.n):
             index = size * n
             output_slice = self.output[b,j,i,index:index+4]
