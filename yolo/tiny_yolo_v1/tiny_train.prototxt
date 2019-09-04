@@ -7,6 +7,7 @@ layer {
   python_param {
     module: 'boxdatalayer'
     layer: 'BoxDataLayer'
+    param_str: "{'image_list': '/data/Machine_Learning/ImageSet/voc-data/2007_val.txt','batch_size': 64,'image_size': 224,'side': 7,'version': 1}"
   }
 }
 layer {
@@ -370,7 +371,6 @@ layer {
     }
   }
 }
-
 
 layer {
   name: "det_loss"
