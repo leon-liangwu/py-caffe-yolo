@@ -84,7 +84,7 @@ if __name__ == '__main__':
     pretrained_model = None
     #pretrained_model = '/data2/wuliang/recognition/models/market-112_iter_120000.caffemodel'
     max_iters = 30000 #config.MAX_ITERS
-    sw = SolverWrapper(solver_prototxt, output_dir,pretrained_model)
+    sw = SolverWrapper(solver_prototxt, output_dir, pretrained_model)
     
     print 'Solving...'
     sw.train_model(max_iters)
