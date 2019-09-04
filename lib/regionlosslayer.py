@@ -91,7 +91,7 @@ class RegionLossLayer(caffe.Layer):
               truth = label_data[b, t*5:t*5+4]
               if truth[0] == 0:
                 break
-              iou = box_func.box_iou(pred_box, truth)
+              iou = box_func.box_iou  (pred_box, truth)
               if iou > best_iou:
                 best_iou = iou
               
