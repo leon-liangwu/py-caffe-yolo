@@ -1,5 +1,6 @@
 import __init_paths
 import caffe
+import yaml
 import numpy as np
 from numpy import *
 import math
@@ -8,10 +9,11 @@ import math_func
 from math_func import logistic_activate as logst_a
 from math_func import logistic_gradient as logst_g
 from math_func import softmax as softmax_f
-import config
+# import config
 
 class RegionLossLayer(caffe.Layer):
   def setup(self, bottom, top):
+    param = yaml.load(self.param_str)
     self.data_seen = 0
     (batch_size, channel, height, width) = bottom[0].data.shape
 
@@ -19,29 +21,26 @@ class RegionLossLayer(caffe.Layer):
     self.w = width
     self.h = height
 
-    self.num_class = config.num_class
-    self.num_object = config.num_object
+    self.num_class = param['num_class']
+    self.num_object = param['num_object']
     self.n = self.num_object
-    self.num_coord = config.num_coord
+    self.num_coord = 4
 
-    self.sqrt = config.sqrt
-    self.constraint = config.constraint
-   
-    self.object_scale = config.object_scale
-    self.noobject_scale = config.noobject_scale
-    self.class_scale = config.class_scale
-    self.coord_scale = config.coord_scale
+    self.sqrt = self.get_param(param, 'sqrt', True)
+    self.constraint = self.get_param(param, 'constraint', True)
+    self.do_softmax = self.get_param(param, 'do_softmax', True)
+    self.rescore = self.get_param(param, 'rescore', True)
+    self.bias_match = self.get_param(param, 'bias_match', True)
+    self.thresh = self.get_param(param, 'thresh', 0.4)
 
-    self.do_softmax = config.do_softmax
-    self.rescore = config.rescore
+    self.object_scale = self.get_param(param, 'object_scale', 1.0)
+    self.noobject_scale = self.get_param(param, 'noobject_scale', 0.5)
+    self.class_scale = self.get_param(param, 'class_scale', 1.0)
+    self.coord_scale = self.get_param(param, 'coord_scale', 5.0)
 
-    self.thresh = config.thresh
-    self.bias_match = config.bias_match
+    def_anchors = [0.5 for i in range(2*self.num_object)]
 
-    try:
-      self.anchors = config.anchors
-    except:
-      self.anchors = [0.5 for i in range(2*self.num_object)]
+    self.anchors = self.get_param(param, 'anchors', def_anchors)
 
     self.diff = np.zeros(bottom[0].data.shape)
     self.output = np.zeros(bottom[0].data.shape)
@@ -51,6 +50,11 @@ class RegionLossLayer(caffe.Layer):
       
   def reshape(self, bottom, top):
     pass
+
+  def get_param(self, param, name, def_val):
+    if name in param:
+      return param[name]
+    return def_val
 
   def forward(self, bottom, top):
     self.data_seen += self.b
@@ -91,7 +95,7 @@ class RegionLossLayer(caffe.Layer):
               truth = label_data[b, t*5:t*5+4]
               if truth[0] == 0:
                 break
-              iou = box_func.box_iou(pred_box, truth)
+              iou = box_func.box_iou  (pred_box, truth)
               if iou > best_iou:
                 best_iou = iou
               

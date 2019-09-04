@@ -7,6 +7,7 @@ layer {
   python_param {
     module: 'boxdatalayer'
     layer: 'BoxDataLayer'
+    param_str: "{'image_list': '/data/Machine_Learning/ImageSet/voc-data/2007_val.txt','batch_size': 64,'image_size': 224,'side': 1,'version': 2}"
   }
 }
 layer {
@@ -276,6 +277,7 @@ layer {
   python_param {
     module: 'regionlosslayer'
     layer: 'RegionLossLayer'
+    param_str: "{'num_class': 0, 'num_object': 3, 'anchors' :[0.4, 0.5, 1.2,1.3, 0.7, 0.8]}"
   }
   loss_weight: 1
 }

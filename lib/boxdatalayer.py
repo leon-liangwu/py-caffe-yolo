@@ -1,23 +1,23 @@
 import __init_paths
 import caffe
+import yaml
 import numpy as np
 from numpy import *
 import cv2
 import config
 import random
 
-
-
 class BoxDataLayer(caffe.Layer):
 
   def setup(self, bottom, top):
-    self.image_list = open(config.image_list)
-    self.batch_size = config.batch_size
-    self.side = config.side
-    self.image_size = config.image_size
+    param = yaml.load(self.param_str)
+    self.image_list = open(param['image_list'])
+    self.batch_size = param['batch_size']
+    self.side = param['side']
+    self.image_size = param['image_size']
     self.width = self.image_size
     self.height = self.image_size
-    self.version = config.version   
+    self.version = param['version']
     self.lines = self.image_list.readlines() 
     self.data_num = len(self.lines)
     top[0].reshape(self.batch_size, 3, self.height, self.width)
